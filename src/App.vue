@@ -15,7 +15,10 @@
         <el-main>
           <router-view/>
         </el-main>
-        <el-footer>footer</el-footer>
+        <el-footer>
+          <i class="el-icon-s-promotion"></i>
+          Copyright © 2020-2025 ZJUT
+        </el-footer>
     </el-container>
   </div>
 </template>

@@ -5,7 +5,7 @@
           <div slot="header" class="clearfix">
               <i class="el-icon-user-solid" style="font-size:50px;font-weight:500px;color:"/>
           </div>
-          <span class="LoginFont">登录</span><br/><br/>
+          <span class="LoginFont">注册</span><br/><br/>
           <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
             <el-form-item label="用户名" prop="name">
               <el-input v-model="ruleForm.name"></el-input>
@@ -13,9 +13,11 @@
             <el-form-item label="密码" prop="pass">
               <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
             </el-form-item>
+            <el-form-item label="确认密码" prop="checkPass">
+              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+            </el-form-item>
             <el-form-item >
-              <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
-              <el-button type=""><router-link to="/Register">注册</router-link></el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
             </el-form-item>
           </el-form>
         </el-card>
@@ -25,7 +27,7 @@
 
 <script>
 export default {
-  name: 'PersonalCenter',
+  name: 'Register',
   data () {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
@@ -34,6 +36,15 @@ export default {
         if (this.ruleForm.checkPass !== '') {
           this.$refs.ruleForm.validateField('checkPass')
         }
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm.pass) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
         callback()
       }
     }
@@ -48,6 +59,10 @@ export default {
           { required: true, message: '请输入密码', trigger: 'blur' },
           { validator: validatePass, trigger: 'blur' }
         ],
+        checkPass: [
+          { required: true, message: '请再次输入密码', trigger: 'blur' },
+          { validator: validatePass2, trigger: 'blur' }
+        ],
         name: [
           { required: true, message: '请输入用户名', trigger: 'blur' },
           { min: 1, max: 10, message: '用户名长度在1到10之间', trigger: 'blur' }
@@ -60,11 +75,11 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$message({
-            message: '登录成功',
+            message: '注册成功',
             type: 'success'
           })
         } else {
-          this.$message.error('登录失败')
+          this.$message.error('注册失败')
           return false
         }
       })
@@ -72,7 +87,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .item {
   margin-bottom: 18px;
